@@ -1,2 +1,2 @@
-# Diabetes_Prediction
-Predicting diabetes onset using logistic regression, decision trees, or support vector machines.
+# Diabetes Prediction
+Welcome to the Predicting Diabetes Onset repository! Here, you'll find an implementation of logistic regression, decision trees, and support vector machines (SVM) using R for predicting the onset of diabetes. This project aims to provide a comparative analysis of these popular machine learning algorithms in the context of diabetes prediction. You can explore the codebase to understand the implementation details and dive into the datasets used for training and evaluation. Whether you're a novice or an experienced practitioner in machine learning with R, this repository offers valuable insights into predictive modeling for diabetes onset. Feel free to contribute, experiment, and enhance the predictive accuracy of these models. Happy coding!
