@@ -68,23 +68,130 @@ print(summary(anova_results))
 # Load necessary libraries
 library(ggplot2)
 
-# Univariate plots for numerical variables
-# Histograms
-histograms <- lapply(pima_data[, c("Pregnancies", "Glucose", "BloodPressure", "SkinThickness", "Insulin", "BMI", "DiabetesPedigreeFunction", "Age")], 
-                     function(x) ggplot(pima_data, aes(x)) + geom_histogram(binwidth = 5) + labs(x = names(x)))
+# Function to generate individual plots
+generate_plots <- function(variable_name, data) {
+  # Histogram
+  hist_plot <- ggplot(data, aes(x = .data[[variable_name]])) +
+    geom_histogram(binwidth = 5, fill = "skyblue", color = "black") +
+    labs(title = paste("Histogram of", variable_name),
+         x = variable_name, y = "Frequency")
+  
+  # Boxplot
+  box_plot <- ggplot(data, aes(y = .data[[variable_name]])) +
+    geom_boxplot(fill = "lightgreen", color = "black") +
+    labs(title = paste("Boxplot of", variable_name),
+         x = "", y = variable_name)
+  
+  # Density plot
+  density_plot <- ggplot(data, aes(x = .data[[variable_name]])) +
+    geom_density(fill = "pink", color = "black") +
+    labs(title = paste("Density Plot of", variable_name),
+         x = variable_name, y = "Density")
+  
+  # Output each plot
+  print(hist_plot)
+  print(box_plot)
+  print(density_plot)
+}
 
-# Boxplots
-boxplots <- lapply(pima_data[, c("Pregnancies", "Glucose", "BloodPressure", "SkinThickness", "Insulin", "BMI", "DiabetesPedigreeFunction", "Age")], 
-                   function(x) ggplot(pima_data, aes(y = x)) + geom_boxplot() + labs(y = names(x)))
+# Generate and output plots for each numerical variable
+for (variable_name in c("Pregnancies", "Glucose", "BloodPressure", "SkinThickness", "Insulin", "BMI", "DiabetesPedigreeFunction", "Age")) {
+  print(paste("Plots for", variable_name))
+  generate_plots(variable_name, pima_data)
+}
 
-# Density plots
-density_plots <- lapply(pima_data[, c("Pregnancies", "Glucose", "BloodPressure", "SkinThickness", "Insulin", "BMI", "DiabetesPedigreeFunction", "Age")], 
-                        function(x) ggplot(pima_data, aes(x)) + geom_density() + labs(x = names(x)))
+# Load necessary libraries
+library(ggplot2)
 
-# Display plots
-print("Histograms:")
-print(histograms)
-print("Boxplots:")
-print(boxplots)
-print("Density Plots:")
-print(density_plots)
+# Scatter plot for Pregnancies vs. Glucose
+scatter_plot_1 <- ggplot(pima_data, aes(x = Pregnancies, y = Glucose)) +
+  geom_point(color = "blue", alpha = 0.5) +
+  labs(title = "Scatter Plot of Pregnancies vs. Glucose", x = "Pregnancies", y = "Glucose")
+
+print(scatter_plot_1)
+
+# Scatter plot for Pregnancies vs. BloodPressure
+scatter_plot_2 <- ggplot(pima_data, aes(x = Pregnancies, y = BloodPressure)) +
+  geom_point(color = "blue", alpha = 0.5) +
+  labs(title = "Scatter Plot of Pregnancies vs. BloodPressure", x = "Pregnancies", y = "BloodPressure")
+
+print(scatter_plot_2)
+
+# Scatter plot for Pregnancies vs. SkinThickness
+scatter_plot_3 <- ggplot(pima_data, aes(x = Pregnancies, y = SkinThickness)) +
+  geom_point(color = "blue", alpha = 0.5) +
+  labs(title = "Scatter Plot of Pregnancies vs. SkinThickness", x = "Pregnancies", y = "SkinThickness")
+
+print(scatter_plot_3)
+
+# Scatter plot for Pregnancies vs. Insulin
+scatter_plot_4 <- ggplot(pima_data, aes(x = Pregnancies, y = Insulin)) +
+  geom_point(color = "blue", alpha = 0.5) +
+  labs(title = "Scatter Plot of Pregnancies vs. Insulin", x = "Pregnancies", y = "Insulin")
+
+print(scatter_plot_4)
+
+# Scatter plot for Pregnancies vs. BMI
+scatter_plot_5 <- ggplot(pima_data, aes(x = Pregnancies, y = BMI)) +
+  geom_point(color = "blue", alpha = 0.5) +
+  labs(title = "Scatter Plot of Pregnancies vs. BMI", x = "Pregnancies", y = "BMI")
+
+print(scatter_plot_5)
+
+# Scatter plot for Pregnancies vs. DiabetesPedigreeFunction
+scatter_plot_6 <- ggplot(pima_data, aes(x = Pregnancies, y = DiabetesPedigreeFunction)) +
+  geom_point(color = "blue", alpha = 0.5) +
+  labs(title = "Scatter Plot of Pregnancies vs. DiabetesPedigreeFunction", x = "Pregnancies", y = "DiabetesPedigreeFunction")
+
+print(scatter_plot_6)
+
+# Scatter plot for Pregnancies vs. Age
+scatter_plot_7 <- ggplot(pima_data, aes(x = Pregnancies, y = Age)) +
+  geom_point(color = "blue", alpha = 0.5) +
+  labs(title = "Scatter Plot of Pregnancies vs. Age", x = "Pregnancies", y = "Age")
+
+print(scatter_plot_7)
+
+# Scatter plot for Glucose vs. BloodPressure
+scatter_plot_8 <- ggplot(pima_data, aes(x = Glucose, y = BloodPressure)) +
+  geom_point(color = "blue", alpha = 0.5) +
+  labs(title = "Scatter Plot of Glucose vs. BloodPressure", x = "Glucose", y = "BloodPressure")
+
+print(scatter_plot_8)
+
+# Scatter plot for Glucose vs. SkinThickness
+scatter_plot_9 <- ggplot(pima_data, aes(x = Glucose, y = SkinThickness)) +
+  geom_point(color = "blue", alpha = 0.5) +
+  labs(title = "Scatter Plot of Glucose vs. SkinThickness", x = "Glucose", y = "SkinThickness")
+
+print(scatter_plot_9)
+
+# Scatter plot for Glucose vs. Insulin
+scatter_plot_10 <- ggplot(pima_data, aes(x = Glucose, y = Insulin)) +
+  geom_point(color = "blue", alpha = 0.5) +
+  labs(title = "Scatter Plot of Glucose vs. Insulin", x = "Glucose", y = "Insulin")
+
+print(scatter_plot_10)
+
+# Scatter plot for Glucose vs. BMI
+scatter_plot_11 <- ggplot(pima_data, aes(x = Glucose, y = BMI)) +
+  geom_point(color = "blue", alpha = 0.5) +
+  labs(title = "Scatter Plot of Glucose vs. BMI", x = "Glucose", y = "BMI")
+
+print(scatter_plot_11)
+
+# Scatter plot for Glucose vs. DiabetesPedigreeFunction
+scatter_plot_12 <- ggplot(pima_data, aes(x = Glucose, y = DiabetesPedigreeFunction)) +
+  geom_point(color = "blue", alpha = 0.5) +
+  labs(title = "Scatter Plot of Glucose vs. DiabetesPedigreeFunction", x = "Glucose", y = "DiabetesPedigreeFunction")
+
+print(scatter_plot_12)
+
+# Scatter plot for Glucose vs. Age
+scatter_plot_13 <- ggplot(pima_data, aes(x = Glucose, y = Age)) +
+  geom_point(color = "blue", alpha = 0.5) +
+  labs(title = "Scatter Plot of Glucose vs. Age", x = "Glucose", y = "Age")
+
+print(scatter_plot_13)
+
+
