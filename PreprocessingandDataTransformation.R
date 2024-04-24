@@ -19,3 +19,10 @@ head(pima_data)
 
 # Open the dataset in a viewer window
 View(pima_data)
+
+# Check for missing values
+missing_values <- colSums(is.na(pima_data))
+
+# Display columns with missing values
+print("Columns with missing values:")
+print(missing_values[missing_values > 0])
