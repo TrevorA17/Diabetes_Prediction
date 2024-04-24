@@ -1,8 +1,8 @@
 # Saving the best logistic regression model
-saveRDS(logistic_model$finalModel, "./models/best_logistic_model.rds")
+saveRDS(logistic_model$finalModel, "./models/logistic_model.rds")
 
 # Load the saved model
-loaded_logistic_model <- readRDS("./models/best_logistic_model.rds")
+loaded_logistic_model <- readRDS("./models/logistic_model.rds")
 
 # Prepare new data for prediction (using Pima Indians dataset variables)
 new_data <- data.frame(
