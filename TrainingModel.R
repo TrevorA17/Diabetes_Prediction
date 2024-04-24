@@ -107,3 +107,36 @@ svm_model <- train(Outcome ~ .,           # Specify the formula for the model
 # Display the trained SVM model
 print(svm_model)
 
+# Load necessary libraries
+library(caret)
+
+# Define the control parameters for model training
+ctrl <- trainControl(method = "cv",    # Use k-fold cross-validation
+                     number = 10)      # Specify the number of folds (e.g., 10-fold)
+
+# Train logistic regression model
+logistic_model <- train(Outcome ~ .,     # Specify the formula for the model
+                        data = pima_data,   # Specify the dataset
+                        method = "glm",     # Specify the modeling method (logistic regression)
+                        trControl = ctrl)   # Specify the control parameters for cross-validation
+
+# Train decision tree model
+decision_tree_model <- train(Outcome ~ .,       # Specify the formula for the model
+                             data = pima_data, # Specify the dataset
+                             method = "rpart", # Specify the modeling method (decision trees)
+                             trControl = ctrl) # Specify the control parameters for cross-validation
+
+# Train SVM model
+svm_model <- train(Outcome ~ .,           # Specify the formula for the model
+                   data = pima_data,     # Specify the dataset
+                   method = "svmRadial", # Specify the modeling method (SVM with radial kernel)
+                   trControl = ctrl)     # Specify the control parameters for cross-validation
+
+# Compare model performance using resamples
+model_results <- resamples(list(Logistic = logistic_model,
+                                Decision_Tree = decision_tree_model,
+                                SVM = svm_model))
+
+# Summarize the model performance
+summary(model_results)
+
