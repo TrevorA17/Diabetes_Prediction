@@ -73,3 +73,37 @@ model <- train(Outcome ~ .,                # Specify the formula for the model
 print(model)
 
 
+# Load necessary libraries
+library(caret)
+
+# Define the control parameters for model training
+ctrl <- trainControl(method = "cv",   # Use k-fold cross-validation
+                     number = 10)     # Specify the number of folds (e.g., 10-fold)
+
+# Train logistic regression model
+logistic_model <- train(Outcome ~ .,     # Specify the formula for the model
+                        data = pima_data,   # Specify the dataset
+                        method = "glm",     # Specify the modeling method (logistic regression)
+                        trControl = ctrl)   # Specify the control parameters for cross-validation
+
+# Display the trained logistic regression model
+print(logistic_model)
+
+# Train decision tree model
+decision_tree_model <- train(Outcome ~ .,       # Specify the formula for the model
+                             data = pima_data, # Specify the dataset
+                             method = "rpart", # Specify the modeling method (decision trees)
+                             trControl = ctrl) # Specify the control parameters for cross-validation
+
+# Display the trained decision tree model
+print(decision_tree_model)
+
+# Train SVM model
+svm_model <- train(Outcome ~ .,           # Specify the formula for the model
+                   data = pima_data,     # Specify the dataset
+                   method = "svmRadial", # Specify the modeling method (SVM with radial kernel)
+                   trControl = ctrl)     # Specify the control parameters for cross-validation
+
+# Display the trained SVM model
+print(svm_model)
+
