@@ -58,3 +58,10 @@ correlation_matrix <- cor(pima_data[, c("Pregnancies", "Glucose", "BloodPressure
 print("Correlation Matrix:")
 print(correlation_matrix)
 
+# Perform ANOVA test
+anova_results <- aov(BMI ~ Age, data = pima_data)
+
+# Display ANOVA results
+print("ANOVA Results:")
+print(summary(anova_results))
+
