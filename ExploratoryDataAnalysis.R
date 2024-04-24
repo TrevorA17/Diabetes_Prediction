@@ -20,4 +20,13 @@ head(pima_data)
 # Open the dataset in a viewer window
 View(pima_data)
 
+# Compute measures of frequency
+outcome_frequency <- table(pima_data$Outcome)
+outcome_percentage <- prop.table(outcome_frequency) * 100
+
+# Display measures of frequency
+print("Frequency of Outcome:")
+print(outcome_frequency)
+print("Percentage of Outcome:")
+print(outcome_percentage)
 
