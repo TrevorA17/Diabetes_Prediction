@@ -30,3 +30,13 @@ print(outcome_frequency)
 print("Percentage of Outcome:")
 print(outcome_percentage)
 
+# Compute measures of central tendency
+central_tendency <- sapply(pima_data[, c("Pregnancies", "Glucose", "BloodPressure", "SkinThickness", "Insulin", "BMI", "DiabetesPedigreeFunction", "Age")], 
+                           function(x) c(Mean = mean(x, na.rm = TRUE), 
+                                         Median = median(x, na.rm = TRUE), 
+                                         Mode = names(sort(table(x), decreasing = TRUE)[1])))
+
+# Display measures of central tendency
+print("Measures of Central Tendency:")
+print(central_tendency)
+
