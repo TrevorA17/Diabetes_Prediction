@@ -49,3 +49,12 @@ distribution <- sapply(pima_data[, c("Pregnancies", "Glucose", "BloodPressure", 
 # Display measures of distribution
 print("Measures of Distribution:")
 print(distribution)
+
+# Compute measures of relationship
+correlation_matrix <- cor(pima_data[, c("Pregnancies", "Glucose", "BloodPressure", "SkinThickness", "Insulin", "BMI", "DiabetesPedigreeFunction", "Age")], 
+                          use = "pairwise.complete.obs")
+
+# Display correlation matrix
+print("Correlation Matrix:")
+print(correlation_matrix)
+
