@@ -56,3 +56,20 @@ bootstrapped_means <- boot(data = pima_data, statistic = compute_statistic, R = 
 # Display the bootstrapped mean glucose levels
 print(bootstrapped_means)
 
+# Load necessary libraries
+library(caret)
+
+# Define the control parameters for cross-validation
+ctrl <- trainControl(method = "cv",    # Use k-fold cross-validation
+                     number = 10)      # Specify the number of folds (e.g., 10-fold)
+
+# Define the predictive model (e.g., linear regression)
+model <- train(Outcome ~ .,                # Specify the formula for the model
+               data = pima_data,          # Specify the dataset
+               method = "glm",            # Specify the modeling method (e.g., generalized linear model)
+               trControl = ctrl)          # Specify the control parameters for cross-validation
+
+# Display the cross-validation results
+print(model)
+
+
