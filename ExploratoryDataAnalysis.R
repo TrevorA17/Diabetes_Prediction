@@ -40,3 +40,12 @@ central_tendency <- sapply(pima_data[, c("Pregnancies", "Glucose", "BloodPressur
 print("Measures of Central Tendency:")
 print(central_tendency)
 
+# Compute measures of distribution
+distribution <- sapply(pima_data[, c("Pregnancies", "Glucose", "BloodPressure", "SkinThickness", "Insulin", "BMI", "DiabetesPedigreeFunction", "Age")], 
+                       function(x) c(Range = diff(range(x, na.rm = TRUE)), 
+                                     Variance = var(x, na.rm = TRUE), 
+                                     Standard_Deviation = sd(x, na.rm = TRUE)))
+
+# Display measures of distribution
+print("Measures of Distribution:")
+print(distribution)
