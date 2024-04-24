@@ -36,3 +36,23 @@ test_data <- pima_data[-train_indices, ]
 # Display the dimensions of the training and testing sets
 cat("Training data dimensions:", dim(train_data), "\n")
 cat("Testing data dimensions:", dim(test_data), "\n")
+
+# Load necessary libraries
+library(boot)
+
+# Define the function to compute the statistic of interest (mean glucose level)
+compute_statistic <- function(data, indices) {
+  sample_data <- data[indices, ]
+  mean_glucose <- mean(sample_data$Glucose, na.rm = TRUE)
+  return(mean_glucose)
+}
+
+# Set the number of bootstrap replicates
+num_replicates <- 1000
+
+# Perform bootstrapping
+bootstrapped_means <- boot(data = pima_data, statistic = compute_statistic, R = num_replicates)
+
+# Display the bootstrapped mean glucose levels
+print(bootstrapped_means)
+
