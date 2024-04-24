@@ -65,3 +65,26 @@ anova_results <- aov(BMI ~ Age, data = pima_data)
 print("ANOVA Results:")
 print(summary(anova_results))
 
+# Load necessary libraries
+library(ggplot2)
+
+# Univariate plots for numerical variables
+# Histograms
+histograms <- lapply(pima_data[, c("Pregnancies", "Glucose", "BloodPressure", "SkinThickness", "Insulin", "BMI", "DiabetesPedigreeFunction", "Age")], 
+                     function(x) ggplot(pima_data, aes(x)) + geom_histogram(binwidth = 5) + labs(x = names(x)))
+
+# Boxplots
+boxplots <- lapply(pima_data[, c("Pregnancies", "Glucose", "BloodPressure", "SkinThickness", "Insulin", "BMI", "DiabetesPedigreeFunction", "Age")], 
+                   function(x) ggplot(pima_data, aes(y = x)) + geom_boxplot() + labs(y = names(x)))
+
+# Density plots
+density_plots <- lapply(pima_data[, c("Pregnancies", "Glucose", "BloodPressure", "SkinThickness", "Insulin", "BMI", "DiabetesPedigreeFunction", "Age")], 
+                        function(x) ggplot(pima_data, aes(x)) + geom_density() + labs(x = names(x)))
+
+# Display plots
+print("Histograms:")
+print(histograms)
+print("Boxplots:")
+print(boxplots)
+print("Density Plots:")
+print(density_plots)
