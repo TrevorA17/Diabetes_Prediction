@@ -1,0 +1,405 @@
+---
+title: "Diabetes Prediction"
+author: "Trevor Okinda"
+date: "2024"
+output:
+  github_document: 
+    toc: yes
+    toc_depth: 4
+    fig_width: 6
+    fig_height: 4
+    df_print: default
+editor_options:
+  chunk_output_type: console
+---
+
+# Student Details
+
+|                                              |     |
+|----------------------------------------------|-----|
+| **Student ID Number**                        | 134780 |
+| **Student Name**                             | Trevor Okinda |
+| **BBIT 4.2 Group**                           | C |
+| **Project Name**                             | A Diabetes prediction model |
+
+# Setup Chunk
+
+**Note:** the following KnitR options have been set as the global defaults: <BR> `knitr::opts_chunk$set(echo = TRUE, warning = FALSE, eval = TRUE, collapse = FALSE, tidy = TRUE)`.
+
+More KnitR options are documented here <https://bookdown.org/yihui/rmarkdown-cookbook/chunk-options.html> and here <https://yihui.org/knitr/options/>.
+
+```{r setup, include=FALSE}
+library(formatR)
+knitr::opts_chunk$set(
+  warning = FALSE,
+  collapse = FALSE
+)
+```
+
+# Understanding the Dataset (Exploratory Data Analysis (EDA))
+
+## Loading the Dataset
+
+### Source: 
+
+The dataset that was used can be downloaded here: *\<https://www.kaggle.com/datasets/nancyalaswad90/review?resource=download\>*
+
+### Reference:
+
+*\*Smith, J. W., Everhart, J. E., Dickson, W. C., Knowler, W. C., & Johannes, R. S. (1988). Pima Indians Diabetes Database [Data set]. Kaggle. https://www.kaggle.com/datasets/nancyalaswad90/review?resource=download*
+\>\
+
+Refer to the APA 7th edition manual for rules on how to cite datasets: <https://apastyle.apa.org/style-grammar-guidelines/references/examples/data-set-references>*
+
+# Exploratory Data Analysis
+
+```{r Load dataset}
+# Load dataset
+pima_data <- read.csv("diabetes.csv", colClasses = c(
+  Pregnancies = "numeric",
+  Glucose = "numeric",
+  BloodPressure = "numeric",
+  SkinThickness = "numeric",
+  Insulin = "numeric",
+  BMI = "numeric",
+  DiabetesPedigreeFunction = "numeric",
+  Age = "numeric",
+  Outcome = "factor"
+), header = TRUE)
+
+# Display the structure of the dataset
+str(pima_data)
+
+# View the first few rows of the dataset
+head(pima_data)
+
+# Open the dataset in a viewer window
+View(pima_data)
+```
+
+## Measures of Frequency
+```{r Measures of Frequency}
+# Compute measures of frequency
+outcome_frequency <- table(pima_data$Outcome)
+outcome_percentage <- prop.table(outcome_frequency) * 100
+
+# Display measures of frequency
+print("Frequency of Outcome:")
+print(outcome_frequency)
+print("Percentage of Outcome:")
+print(outcome_percentage)
+
+```
+
+## Measures of Central Tendency
+```{r Measures of Central Tendency}
+# Compute measures of central tendency
+central_tendency <- sapply(pima_data[, c("Pregnancies", "Glucose", "BloodPressure", "SkinThickness", "Insulin", "BMI", "DiabetesPedigreeFunction", "Age")], 
+                           function(x) c(Mean = mean(x, na.rm = TRUE), 
+                                         Median = median(x, na.rm = TRUE), 
+                                         Mode = names(sort(table(x), decreasing = TRUE)[1])))
+
+# Display measures of central tendency
+print("Measures of Central Tendency:")
+print(central_tendency)
+```
+
+## Measures of Distribution
+```{r Measures of Distribution}
+# Compute measures of distribution
+distribution <- sapply(pima_data[, c("Pregnancies", "Glucose", "BloodPressure", "SkinThickness", "Insulin", "BMI", "DiabetesPedigreeFunction", "Age")], 
+                       function(x) c(Range = diff(range(x, na.rm = TRUE)), 
+                                     Variance = var(x, na.rm = TRUE), 
+                                     Standard_Deviation = sd(x, na.rm = TRUE)))
+
+# Display measures of distribution
+print("Measures of Distribution:")
+print(distribution)
+```
+
+## Measures of relationship
+```{r Measures of relationship}
+# Compute measures of relationship
+correlation_matrix <- cor(pima_data[, c("Pregnancies", "Glucose", "BloodPressure", "SkinThickness", "Insulin", "BMI", "DiabetesPedigreeFunction", "Age")], 
+                          use = "pairwise.complete.obs")
+
+# Display correlation matrix
+print("Correlation Matrix:")
+print(correlation_matrix)
+```
+
+## ANOVA
+```{r ANOVA}
+# Perform ANOVA test
+anova_results <- aov(BMI ~ Age, data = pima_data)
+
+# Display ANOVA results
+print("ANOVA Results:")
+print(summary(anova_results))
+```
+
+## Plots
+```{r Plots}
+# Load necessary libraries
+library(ggplot2)
+
+# Scatter plot for Pregnancies vs. Glucose
+scatter_plot_1 <- ggplot(pima_data, aes(x = Pregnancies, y = Glucose)) +
+  geom_point(color = "blue", alpha = 0.5) +
+  labs(title = "Scatter Plot of Pregnancies vs. Glucose", x = "Pregnancies", y = "Glucose")
+
+print(scatter_plot_1)
+
+# Scatter plot for Pregnancies vs. BloodPressure
+scatter_plot_2 <- ggplot(pima_data, aes(x = Pregnancies, y = BloodPressure)) +
+  geom_point(color = "blue", alpha = 0.5) +
+  labs(title = "Scatter Plot of Pregnancies vs. BloodPressure", x = "Pregnancies", y = "BloodPressure")
+
+print(scatter_plot_2)
+
+# Scatter plot for Pregnancies vs. SkinThickness
+scatter_plot_3 <- ggplot(pima_data, aes(x = Pregnancies, y = SkinThickness)) +
+  geom_point(color = "blue", alpha = 0.5) +
+  labs(title = "Scatter Plot of Pregnancies vs. SkinThickness", x = "Pregnancies", y = "SkinThickness")
+
+print(scatter_plot_3)
+
+# Scatter plot for Pregnancies vs. Insulin
+scatter_plot_4 <- ggplot(pima_data, aes(x = Pregnancies, y = Insulin)) +
+  geom_point(color = "blue", alpha = 0.5) +
+  labs(title = "Scatter Plot of Pregnancies vs. Insulin", x = "Pregnancies", y = "Insulin")
+
+print(scatter_plot_4)
+
+# Scatter plot for Pregnancies vs. BMI
+scatter_plot_5 <- ggplot(pima_data, aes(x = Pregnancies, y = BMI)) +
+  geom_point(color = "blue", alpha = 0.5) +
+  labs(title = "Scatter Plot of Pregnancies vs. BMI", x = "Pregnancies", y = "BMI")
+
+print(scatter_plot_5)
+
+# Scatter plot for Pregnancies vs. DiabetesPedigreeFunction
+scatter_plot_6 <- ggplot(pima_data, aes(x = Pregnancies, y = DiabetesPedigreeFunction)) +
+  geom_point(color = "blue", alpha = 0.5) +
+  labs(title = "Scatter Plot of Pregnancies vs. DiabetesPedigreeFunction", x = "Pregnancies", y = "DiabetesPedigreeFunction")
+
+print(scatter_plot_6)
+
+# Scatter plot for Pregnancies vs. Age
+scatter_plot_7 <- ggplot(pima_data, aes(x = Pregnancies, y = Age)) +
+  geom_point(color = "blue", alpha = 0.5) +
+  labs(title = "Scatter Plot of Pregnancies vs. Age", x = "Pregnancies", y = "Age")
+
+print(scatter_plot_7)
+
+# Scatter plot for Glucose vs. BloodPressure
+scatter_plot_8 <- ggplot(pima_data, aes(x = Glucose, y = BloodPressure)) +
+  geom_point(color = "blue", alpha = 0.5) +
+  labs(title = "Scatter Plot of Glucose vs. BloodPressure", x = "Glucose", y = "BloodPressure")
+
+print(scatter_plot_8)
+
+# Scatter plot for Glucose vs. SkinThickness
+scatter_plot_9 <- ggplot(pima_data, aes(x = Glucose, y = SkinThickness)) +
+  geom_point(color = "blue", alpha = 0.5) +
+  labs(title = "Scatter Plot of Glucose vs. SkinThickness", x = "Glucose", y = "SkinThickness")
+
+print(scatter_plot_9)
+
+# Scatter plot for Glucose vs. Insulin
+scatter_plot_10 <- ggplot(pima_data, aes(x = Glucose, y = Insulin)) +
+  geom_point(color = "blue", alpha = 0.5) +
+  labs(title = "Scatter Plot of Glucose vs. Insulin", x = "Glucose", y = "Insulin")
+
+print(scatter_plot_10)
+
+# Scatter plot for Glucose vs. BMI
+scatter_plot_11 <- ggplot(pima_data, aes(x = Glucose, y = BMI)) +
+  geom_point(color = "blue", alpha = 0.5) +
+  labs(title = "Scatter Plot of Glucose vs. BMI", x = "Glucose", y = "BMI")
+
+print(scatter_plot_11)
+
+# Scatter plot for Glucose vs. DiabetesPedigreeFunction
+scatter_plot_12 <- ggplot(pima_data, aes(x = Glucose, y = DiabetesPedigreeFunction)) +
+  geom_point(color = "blue", alpha = 0.5) +
+  labs(title = "Scatter Plot of Glucose vs. DiabetesPedigreeFunction", x = "Glucose", y = "DiabetesPedigreeFunction")
+
+print(scatter_plot_12)
+
+# Scatter plot for Glucose vs. Age
+scatter_plot_13 <- ggplot(pima_data, aes(x = Glucose, y = Age)) +
+  geom_point(color = "blue", alpha = 0.5) +
+  labs(title = "Scatter Plot of Glucose vs. Age", x = "Glucose", y = "Age")
+
+print(scatter_plot_13)
+```
+
+# Preprocessing and Data Transformation
+## Check for missing values
+```{r missing values}
+# Check for missing values
+missing_values <- colSums(is.na(pima_data))
+
+# Display columns with missing values
+print("Columns with missing values:")
+print(missing_values[missing_values > 0])
+```
+
+## Normalize Data
+```{r data normalization}
+# Load necessary libraries
+library(dplyr)
+
+# Function to normalize data
+normalize_data <- function(data) {
+  normalized_data <- data %>%
+    mutate_if(is.numeric, function(x) (x - min(x, na.rm = TRUE)) / (max(x, na.rm = TRUE) - min(x, na.rm = TRUE)))
+  return(normalized_data)
+}
+
+# Apply normalization to numerical variables
+normalized_pima_data <- normalize_data(pima_data)
+
+# Display the first few rows of the normalized dataset
+head(normalized_pima_data)
+```
+
+# Training Model
+## Splitting Data
+```{r data splitting}
+# Load necessary libraries
+library(caret)
+
+# Set seed for reproducibility
+set.seed(123)
+
+# Split the data into 70% training and 30% testing
+train_indices <- createDataPartition(pima_data$Outcome, p = 0.7, list = FALSE)
+
+# Create training and testing sets
+train_data <- pima_data[train_indices, ]
+test_data <- pima_data[-train_indices, ]
+
+# Display the dimensions of the training and testing sets
+cat("Training data dimensions:", dim(train_data), "\n")
+cat("Testing data dimensions:", dim(test_data), "\n")
+```
+
+## Bootstrapping
+```{r Bootstrapping}
+# Load necessary libraries
+library(boot)
+
+# Define the function to compute the statistic of interest (mean glucose level)
+compute_statistic <- function(data, indices) {
+  sample_data <- data[indices, ]
+  mean_glucose <- mean(sample_data$Glucose, na.rm = TRUE)
+  return(mean_glucose)
+}
+
+# Set the number of bootstrap replicates
+num_replicates <- 1000
+
+# Perform bootstrapping
+bootstrapped_means <- boot(data = pima_data, statistic = compute_statistic, R = num_replicates)
+
+# Display the bootstrapped mean glucose levels
+print(bootstrapped_means)
+```
+
+## Cross-validation
+```{r Cross-validation}
+# Load necessary libraries
+library(caret)
+
+# Define the control parameters for cross-validation
+ctrl <- trainControl(method = "cv",    # Use k-fold cross-validation
+                     number = 10)      # Specify the number of folds (e.g., 10-fold)
+
+# Define the predictive model (e.g., linear regression)
+model <- train(Outcome ~ .,                # Specify the formula for the model
+               data = pima_data,          # Specify the dataset
+               method = "glm",            # Specify the modeling method (e.g., generalized linear model)
+               trControl = ctrl)          # Specify the control parameters for cross-validation
+
+# Display the cross-validation results
+print(model)
+```
+
+## Training different models
+```{r Model training}
+# Load necessary libraries
+library(caret)
+
+# Define the control parameters for model training
+ctrl <- trainControl(method = "cv",   # Use k-fold cross-validation
+                     number = 10)     # Specify the number of folds (e.g., 10-fold)
+
+# Train logistic regression model
+logistic_model <- train(Outcome ~ .,     # Specify the formula for the model
+                        data = pima_data,   # Specify the dataset
+                        method = "glm",     # Specify the modeling method (logistic regression)
+                        trControl = ctrl)   # Specify the control parameters for cross-validation
+
+# Display the trained logistic regression model
+print(logistic_model)
+
+# Train decision tree model
+decision_tree_model <- train(Outcome ~ .,       # Specify the formula for the model
+                             data = pima_data, # Specify the dataset
+                             method = "rpart", # Specify the modeling method (decision trees)
+                             trControl = ctrl) # Specify the control parameters for cross-validation
+
+# Display the trained decision tree model
+print(decision_tree_model)
+
+# Train SVM model
+svm_model <- train(Outcome ~ .,           # Specify the formula for the model
+                   data = pima_data,     # Specify the dataset
+                   method = "svmRadial", # Specify the modeling method (SVM with radial kernel)
+                   trControl = ctrl)     # Specify the control parameters for cross-validation
+
+# Display the trained SVM model
+print(svm_model)
+```
+
+## Model performance comparison with resamples
+```{r Performance Comparison}
+# Compare model performance using resamples
+model_results <- resamples(list(Logistic = logistic_model,
+                                Decision_Tree = decision_tree_model,
+                                SVM = svm_model))
+
+# Summarize the model performance
+summary(model_results)
+```
+
+# Saving Model
+```{r Saving Model}
+# Saving the best logistic regression model
+saveRDS(logistic_model$finalModel, "./models/logistic_model.rds")
+
+# Load the saved model
+loaded_logistic_model <- readRDS("./models/logistic_model.rds")
+
+# Prepare new data for prediction (using Pima Indians dataset variables)
+new_data <- data.frame(
+  Pregnancies = 5,
+  Glucose = 130,
+  BloodPressure = 70,
+  SkinThickness = 30,
+  Insulin = 50,
+  BMI = 25,
+  DiabetesPedigreeFunction = 0.5,
+  Age = 40
+)
+
+# Use the loaded model to make predictions
+predictions_loaded_model <- predict(loaded_logistic_model, newdata = new_data)
+
+# Print predictions
+print(predictions_loaded_model)
+
+```
+
